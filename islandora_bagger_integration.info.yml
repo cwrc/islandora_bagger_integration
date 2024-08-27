@@ -2,8 +2,7 @@ type: module
 name: 'Islandora Bagger Integration'
 description: "Provides integration with the Islandora Bagger BagIt microservice."
 package: Islandora
-core: 8.x
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9 || ^10
 dependencies:
   - getjwtonlogin
   - islandora

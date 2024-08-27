@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Drupal Module that allows user to create Bags with [Islandora Bagger](https://github.com/mjordan/islandora_bagger). Can be run in "remote" or "local" mode, as explained below.
+Drupal Module that allows users to create Bags with [Islandora Bagger](https://github.com/mjordan/islandora_bagger). Can be run in "remote" or "local" mode, as explained below.
 
 ## Requirements
 
@@ -22,7 +22,7 @@ The admin settings form for this module requires the following:
 1. A choice of whether you are running it in local or remote mode.
 1. The absolute path on your Drupal server to the default Islandora Bagger configuration file. This file is used if no Contexts are configured to use an alternative configuration file.
 1. If using remote mode
-   1. the URL of the Islandora Bagger REST endpoint. If you are running Islandora in the CLAW Vagrant, and Islandora Bagger on the host machine (i.e., same machine that is hosing the Vagrant), use `10.0.2.2` as your endpoint IP address instead of `localhost`.
+   1. the URL of the Islandora Bagger REST endpoint. If you are running Islandora in the CLAW Vagrant, and Islandora Bagger on the host machine (i.e., same machine that is hosting the Vagrant), use `10.0.2.2` as your endpoint IP address instead of `localhost`.
    1. an option to add to the configuration file the email address of the user who requested the Bag be created. If checked, the user's email address will be added to the configuration file using the key `recipient_email`. In addition, if this option is checked, the message displayed to the user will indicate they will receive an email when their Bag is ready for download.
 1. If running in local mode, the absolute path to the directory on your Drupal server where Islandora Bagger is installed.
     - This directory needs to be writable by the web server process user, e.g., www-data on most Linux systems.
@@ -31,7 +31,7 @@ After you configure the admin setting, place the "Islandora Bagger Block" as you
 
 ## Usage
 
-This module's interaction with Islanodra Bagger can be configured in two ways:
+This module's interaction with Islandora Bagger can be configured in two ways:
 
 1. Using Islandora Bagger as a remote microservice ("remote" mode)
    * In this mode, submitting the "Create Bag" form does not directly generate the Bag; rather, it sends a request to the remote Islandora Bagger's REST interface, which in turn populates its processing queue with the node ID and the configuration file to use when that node's Bag is created.
@@ -43,7 +43,7 @@ In both cases, end users generate a Bag for the current object by submitting a s
 
 The advantage of local mode is that the user is presented with the download link immediately after the Bag is generated. The disadvantage of the local mode is that creating the Bag is done synchronously, and there is a risk that, for objects that have very large files, the job will time out.
 
-The advantage of the remote mode is that generating a Bag will never time out because clicking on the "Create Bag" button sends a simple REST request to the remote Islandora Bagger microservice, which then add the request to a queue to be processed later. This is also a disadvantage, since the user doesn't get to download the Bag until later.
+The advantage of the remote mode is that generating a Bag will never time out because clicking on the "Create Bag" button sends a simple REST request to the remote Islandora Bagger microservice, which then adds the request to a queue to be processed later. This is also a disadvantage, since the user doesn't get to download the Bag until later.
 
 ## Using Context
 
@@ -51,7 +51,7 @@ This module comes with two Context Reactions that provide control over the Islan
 
 ### Using Context to define which configuration file to use
 
-One of those Reactions allows you to use Islandora Bagger configuration files other than the default. To enable this, do the folowing:
+One of those Reactions allows you to use Islandora Bagger configuration files other than the default. To enable this, do the following:
 
 1. Install Context and Context UI modules (requirements for Islandora, so will already be done).
 1. Create a Context or edit an existing Context.
@@ -63,7 +63,7 @@ This module provides no mechanism for uploading configuration files via Drupal's
 
 ### Using Context to add or modify Islandora Bagger config settings
 
-The other Reaction allows you to add options to the Islandora Bagger configuration file or override existing options. To enable this, do the folowing:
+The other Reaction allows you to add options to the Islandora Bagger configuration file or override existing options. To enable this, do the following:
 
 1. Install Context and Context UI modules (requirements for Islandora, so will already be done).
 1. Create a Context or edit an existing Context.
@@ -83,7 +83,7 @@ If the option's key exists in the configuration file, that option will be update
 
 ## The Bag log
 
-Islandora Bagger can be configured to register the creation of Bags with this module. Each Bag gets an entry in a database table. To do this, each Islandora Bagger configuration file nees to contain the following setting:
+Islandora Bagger can be configured to register the creation of Bags with this module. Each Bag gets an entry in a database table. To do this, each Islandora Bagger configuration file needs to contain the following setting:
 
 ```
 register_bags_with_islandora: true
@@ -96,7 +96,7 @@ This tells Islandora Bagger to send a REST request to this module to register th
 1. Under "Granularity", choose "Resource".
 1. Under "Methods", choose "POST".
 1. Under "Accepted request formats", choose "json".
-1. Under "Authentication", choose "basic_auth".
+1. Under "Authentication", choose "jwt_auth" (or "basic_auth" if using Islandora Bagger before [JWT Auth](https://github.com/mjordan/islandora_bagger/pull/77/commits/d37231b8b905660eb9f49a1c9002660f83069da4)).
 1. Save the configuration.
 
 Then, back at the list of REST resources, for "Islandora Bagger Integration Bag Log" choose "Permissions" and in the "Islandora Bagger Integration" section, enable the "Log Bag creation" permission for the roles that can populate the log. The user identified in the Islandora Bagger configuration file (in the `drupal_basic_auth` option) must be a member of the enabled roles.
@@ -105,7 +105,7 @@ The data created by this feature is accessible via Views, but (currently) in a v
 
 ## Modifying the Islandora Bagger configuration from other modules
 
-This module defines a hook that allows other modules to modify the Islandora Bagger configration, in both remote and local modes. See `islandora_bagger_integration.api.php` for details.
+This module defines a hook that allows other modules to modify the Islandora Bagger configuration, in both remote and local modes. See `islandora_bagger_integration.api.php` for details.
 
 ## To do
 

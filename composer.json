@@ -1,0 +1,22 @@
+{
+  "name": "mjordan/islandora_bagger_integration",
+  "type": "drupal-module",
+  "description": "Drupal Module that allows user to create Bags with islandora_bagger.",
+  "license": "GPLv2",
+  "authors": [
+      {
+          "name": "Mark Jordan",
+          "email": "mjordan@sfu.ca"
+      }
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    }
+  ],
+  "require": {
+      "php": "^7.2 || ^8.0",
+      "drupal/getjwtonlogin": "*"
+  }
+}

@@ -15,7 +15,7 @@ use Drupal\Core\Database\Database;
  *   label = @Translation("Islandora Bagger Integration Bag Log"),
  *   uri_paths = {
  *     "canonical" = "/islandora_bagger_integration/bag_log",
- *     "https://www.drupal.org/link-relations/create" = "/islandora_bagger_integration/bag_log"
+ *     "create" = "/islandora_bagger_integration/bag_log"
  *   }
  * )
  */
@@ -44,7 +44,7 @@ class IslandoraBaggerIntegrationBagLog extends ResourceBase {
         'nid' => $data['nid'],
         'ip_address' => $request->getClientIp(),
         'created' => \Drupal::time()->getRequestTime(),
-        'user' => $request->getUser(),
+        'user' => \Drupal::currentUser()->getAccountName(),
         'bag_name' => $data['bag_name'],
         'bagit_version' => $data['bagit_version'],
         'hash_algorithm' => $data['hash_algorithm'],
