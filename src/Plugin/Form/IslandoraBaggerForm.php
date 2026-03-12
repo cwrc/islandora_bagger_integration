@@ -16,15 +16,19 @@ class IslandoraBaggerForm extends FormBase {
 
   /**
    * {@inheritdoc}
+   * 
+   * @return string
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'islandora_bagger_form';
   }
 
   /**
    * {@inheritdoc}
+   * 
+   * @return array<string, mixed>
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     if (\Drupal::routeMatch()->getParameter('node')) {
       $node = \Drupal::routeMatch()->getParameter('node');
       $nid = $node->id();
@@ -43,14 +47,14 @@ class IslandoraBaggerForm extends FormBase {
         '#tag' => 'p',
         '#value' => $this->t('Clicking this button will request a Bag be created for this object.'),
       );
-      return $form;
     }
+    return $form;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
+  public function validateForm(array &$form, FormStateInterface $form_state): void {
     $nid = $form_state->getValue('nid');
     $node = \Drupal\node\Entity\Node::load($nid);
     $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
@@ -74,7 +78,7 @@ class IslandoraBaggerForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     $config = \Drupal::config('islandora_bagger_integration.settings');
     $mode = $config->get('islandora_bagger_mode');
 
@@ -125,14 +129,14 @@ class IslandoraBaggerForm extends FormBase {
         $message = $this->t('Download your Bag @link.',
           ['@link' => $link]
         );
-	@unlink($tmp_islandora_bagger_config_file_path);
+        @unlink($tmp_islandora_bagger_config_file_path);
       }
       else {
 
         $messenger_level = 'addWarning';
         $logger_level = 'warning';
         $message = $this->t('Request to create Bag for "@title" (node @nid) failed with return code @return_code and error text @error_text.',
-          ['@title' => $title, '@nid' => $nid, '@return_code' => $return_code, '@error_text' => $process->getErrorOutput()]
+          ['@title' => $title, '@nid' => $nid, '@return_code' => $process->getExitCode(), '@error_text' => $process->getErrorOutput()]
         );
       }
 

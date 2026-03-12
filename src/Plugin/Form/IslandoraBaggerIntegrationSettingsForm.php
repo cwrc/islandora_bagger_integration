@@ -10,15 +10,19 @@ use Drupal\Core\Form\FormStateInterface;
 class IslandoraBaggerIntegrationSettingsForm extends ConfigFormBase {
   /** 
    * {@inheritdoc}
+   * 
+   * @return string
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'islandora_bagger_integration_admin_settings';
   }
 
   /** 
    * {@inheritdoc}
+   * 
+   * @return array<string>
    */
-  protected function getEditableConfigNames() {
+  protected function getEditableConfigNames(): array {
     return [
       'islandora_bagger_integration.settings',
     ];
@@ -26,8 +30,10 @@ class IslandoraBaggerIntegrationSettingsForm extends ConfigFormBase {
 
   /** 
    * {@inheritdoc}
+   * 
+   * @return array<string, mixed>
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     $config = $this->config('islandora_bagger_integration.settings');
     $form['islandora_bagger_mode'] = array(
       '#type' => 'radios',
@@ -88,7 +94,7 @@ class IslandoraBaggerIntegrationSettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
+  public function validateForm(array &$form, FormStateInterface $form_state): void {
     $utils = \Drupal::service('islandora_bagger_integration.utils');
     if (!$utils->configFileIsReadable(trim($form_state->getValue('islandora_bagger_default_config_file_path')))) {
       $form_state->setErrorByName(
@@ -102,9 +108,9 @@ class IslandoraBaggerIntegrationSettingsForm extends ConfigFormBase {
     if ($form_state->getValue('islandora_bagger_mode') == 'local' && !is_writable($bagger_settings['output_dir'])) {
       $form_state->setErrorByName(
         'islandora_bagger_default_config_file_path',
-	$this->t('@dir identified in the "output_dir" setting in @path is not writable.',
-	['@dir' => $bagger_settings['output_dir'],
-	'@path' => ($form_state->getValue('islandora_bagger_default_config_file_path'))])
+        $this->t('@dir identified in the "output_dir" setting in @path is not writable.',
+        ['@dir' => $bagger_settings['output_dir'],
+        '@path' => ($form_state->getValue('islandora_bagger_default_config_file_path'))])
       );
     }
 
@@ -113,9 +119,9 @@ class IslandoraBaggerIntegrationSettingsForm extends ConfigFormBase {
       if (!in_array($bagger_settings['serialize'], $allowed_serializations)) {
         $form_state->setErrorByName(
           'islandora_bagger_default_config_file_path',
-	  $this->t('The "serialize" setting in @path is "@serialization". It must be either "zip" or "tgz".',
-	  ['@path' => $form_state->getValue('islandora_bagger_default_config_file_path'),
-	  '@serialization.' => $bagger_settings['serialize']])
+          $this->t('The "serialize" setting in @path is "@serialization". It must be either "zip" or "tgz".',
+          ['@path' => $form_state->getValue('islandora_bagger_default_config_file_path'),
+          '@serialization.' => $bagger_settings['serialize']])
         );
       }
     }
@@ -133,7 +139,7 @@ class IslandoraBaggerIntegrationSettingsForm extends ConfigFormBase {
   /** 
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
        $this->configFactory->getEditable('islandora_bagger_integration.settings')
       ->set('islandora_bagger_mode', $form_state->getValue('islandora_bagger_mode'))
       ->set('islandora_bagger_default_config_file_path', trim($form_state->getValue('islandora_bagger_default_config_file_path')))

@@ -3,7 +3,7 @@
 /**
  * Implements hook_requirements().
  */
-function islandora_bagger_integration_requirements($phase) {
+function islandora_bagger_integration_requirements(string $phase): array {
   $requirements = [];
 
   if ($phase == 'runtime') {
@@ -75,7 +75,7 @@ function islandora_bagger_integration_requirements($phase) {
 /**
  * Implements hook_schema().
  */
-function islandora_bagger_integration_schema() {
+function islandora_bagger_integration_schema(): array {
   $schema = [];
 
   $schema['islandora_bagger_integration_bag_log'] = [

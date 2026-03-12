@@ -9,6 +9,13 @@ use Symfony\Component\Yaml\Yaml;
  */
 class IslandoraBaggerUtils {
 
+  /**
+   * The Islandora Bagger Integration settings.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  protected ImmutableConfig $config;
+
   public function __construct() {
     $config = \Drupal::config('islandora_bagger_integration.settings');
     $this->config = $config;
@@ -20,7 +27,9 @@ class IslandoraBaggerUtils {
    * @return string|bool
    *   The absolute path to the file on the Drupal server, or FALSE if no file is found.
    */
-  public function getConfigFilePath() {
+  public function getConfigFilePath(): string|bool {
+
+    $islandora_bagger_config_file_path_from_context = NULL;
     if (\Drupal::moduleHandler()->moduleExists('context')) {
       $context_manager = \Drupal::service('context.manager');
       // If there are multiple contexts that provide a path to a config file, it's OK to use the last one.
@@ -53,7 +62,7 @@ class IslandoraBaggerUtils {
    * @return bool
    *   TRUE if it is, FALSE if not.
    */
-  public function configFileIsReadable($path = NULL) {
+  public function configFileIsReadable(string $path = NULL): bool {
     if (is_null($path)) {
       $path = $this->getConfigFilePath();
     }
@@ -75,7 +84,7 @@ class IslandoraBaggerUtils {
    * @return array|bool
    *   The configuration values, or FALSE if there was a problem.
    */
-  public function getIslandoraBaggerConfig($path) {
+  public function getIslandoraBaggerConfig(string $path): array|bool {
     if (!$this->configFileIsReadable($path)) {
       return FALSE;
     }
@@ -100,7 +109,7 @@ class IslandoraBaggerUtils {
    * @return array
    *    The modified YAML configuration data as an associative array.
    */
-  public function addBagInfoTags($existing_config, $bag_info_tags_from_context) {
+  public function addBagInfoTags(array $existing_config, string $bag_info_tags_from_context): array {
     $bag_info_tags_from_context = explode('|', $bag_info_tags_from_context);
     foreach ($bag_info_tags_from_context as $tag_from_context) {
       list($context_tag_key, $context_tag_value) = explode(':', $tag_from_context, 2);
@@ -129,7 +138,7 @@ class IslandoraBaggerUtils {
    * @return array
    *    The modified YAML configuration data as an associative array.
    */
-  public function addListConfigOptions($existing_config, $key, $list_from_context) {
+  public function addListConfigOptions(array $existing_config, string $key, string $list_from_context): array {
     $list_from_context = explode('|', $list_from_context);
     foreach ($list_from_context as &$member) {
       $member = trim($member);

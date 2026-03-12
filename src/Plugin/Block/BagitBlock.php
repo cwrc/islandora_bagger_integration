@@ -18,8 +18,10 @@ class BagitBlock extends BlockBase {
 
   /**
    * {@inheritdoc}
+   * 
+   * @return array<string, mixed>
    */
-  public function build() {
+  public function build(): array {
     $form = \Drupal::formBuilder()->getForm('Drupal\islandora_bagger_integration\Plugin\Form\IslandoraBaggerForm');
     return $form;
    }

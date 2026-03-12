@@ -17,8 +17,10 @@ class IslandoraBaggerConfigurationFileReaction extends ContextReactionPluginBase
 
   /**
    * {@inheritdoc}
+   * 
+   * @return array<string, mixed>
    */
-  public function defaultConfiguration() {
+  public function defaultConfiguration(): array {
     return parent::defaultConfiguration() + [
       'bagger_config_file_path' => '',
     ];
@@ -27,22 +29,24 @@ class IslandoraBaggerConfigurationFileReaction extends ContextReactionPluginBase
   /**
    * {@inheritdoc}
    */
-  public function summary() {
+  public function summary(): string {
     return $this->t('Determine paths to Islandora Bagger config files.');
   }
 
   /**
    * {@inheritdoc}
    */
-  public function execute() {
+  public function execute(): string {
     $config = $this->getConfiguration();
     return $config['bagger_config_file_path'];
   }
 
   /**
    * {@inheritdoc}
+   * 
+   * @return array<string, mixed>
    */
-  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state): array {
     $config = $this->getConfiguration();
     $form['bagger_config_file_path'] = [
       '#title' => $this->t('Islandora Bagger config file path'),
@@ -57,7 +61,7 @@ class IslandoraBaggerConfigurationFileReaction extends ContextReactionPluginBase
   /**
    * {@inheritdoc}
    */
-  public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {
+  public function validateConfigurationForm(array &$form, FormStateInterface $form_state): void {
     $module_config = \Drupal::config('islandora_bagger_integration.settings');
     $mode = $module_config->get('islandora_bagger_mode');
 
@@ -101,7 +105,7 @@ class IslandoraBaggerConfigurationFileReaction extends ContextReactionPluginBase
   /**
    * {@inheritdoc}
    */
-  public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
+  public function submitConfigurationForm(array &$form, FormStateInterface $form_state): void {
     $this->setConfiguration([
       'bagger_config_file_path' => trim($form_state->getValue('bagger_config_file_path')),
     ]);

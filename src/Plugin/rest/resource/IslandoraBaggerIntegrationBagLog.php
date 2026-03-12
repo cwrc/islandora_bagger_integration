@@ -26,7 +26,7 @@ class IslandoraBaggerIntegrationBagLog extends ResourceBase {
    *
    * @return \Drupal\rest\ResourceResponse
    */
-  public function get() {
+  public function get(): ResourceResponse {
     $response = ['message' => 'This does not do anything.'];
     return new ResourceResponse($response);
   }
@@ -36,7 +36,7 @@ class IslandoraBaggerIntegrationBagLog extends ResourceBase {
    *
    * @return \Drupal\rest\ResourceResponse
    */
-  public static function post(Request $request) {
+  public static function post(Request $request): ResourceResponse {
     $data = json_decode($request->getContent(), TRUE);
     $database = Database::getConnection();
     $result = $database->insert('islandora_bagger_integration_bag_log')
