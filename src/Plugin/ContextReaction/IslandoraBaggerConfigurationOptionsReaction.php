@@ -32,7 +32,7 @@ class IslandoraBaggerConfigurationOptionsReaction extends ContextReactionPluginB
    * 
    * @return string
    */
-  public function summary(): string {
+  public function summary(): \Drupal\Core\StringTranslation\TranslatableMarkup {
     return $this->t('Modify Islandora Bagger config options.');
   }
 
@@ -48,7 +48,9 @@ class IslandoraBaggerConfigurationOptionsReaction extends ContextReactionPluginB
 
   /**
    * {@inheritdoc}
-   * 
+   *
+   * @param array<string, mixed> $form
+   * @param \Drupal\Core\Form\FormStateInterface $form_state 
    * @return array<string, mixed>
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state): array {
@@ -64,6 +66,11 @@ class IslandoraBaggerConfigurationOptionsReaction extends ContextReactionPluginB
 
   /**
    * {@inheritdoc}
+   * 
+   * @param array<string, mixed> $form
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   * @return void
+    */
    */
   public function validateConfigurationForm(array &$form, FormStateInterface $form_state): void {
     $value = trim($form_state->getValue('bagger_config_options'));
@@ -88,6 +95,10 @@ class IslandoraBaggerConfigurationOptionsReaction extends ContextReactionPluginB
 
   /**
    * {@inheritdoc}
+   * 
+   * @param array<string, mixed> $form
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   * @return void
    */
   public function submitConfigurationForm(array &$form, FormStateInterface $form_state): void {
     $this->setConfiguration([

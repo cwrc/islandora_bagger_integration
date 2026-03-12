@@ -29,7 +29,7 @@ class IslandoraBaggerConfigurationFileReaction extends ContextReactionPluginBase
   /**
    * {@inheritdoc}
    */
-  public function summary(): string {
+  public function summary(): \Drupal\Core\StringTranslation\TranslatableMarkup {
     return $this->t('Determine paths to Islandora Bagger config files.');
   }
 
@@ -43,7 +43,9 @@ class IslandoraBaggerConfigurationFileReaction extends ContextReactionPluginBase
 
   /**
    * {@inheritdoc}
-   * 
+   *
+   * @param array<string, mixed> $form
+   * @param \Drupal\Core\Form\FormStateInterface $form_state 
    * @return array<string, mixed>
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state): array {
@@ -60,6 +62,10 @@ class IslandoraBaggerConfigurationFileReaction extends ContextReactionPluginBase
 
   /**
    * {@inheritdoc}
+   * 
+   * @param array<string, mixed> $form
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   * @return void
    */
   public function validateConfigurationForm(array &$form, FormStateInterface $form_state): void {
     $module_config = \Drupal::config('islandora_bagger_integration.settings');
@@ -104,6 +110,10 @@ class IslandoraBaggerConfigurationFileReaction extends ContextReactionPluginBase
 
   /**
    * {@inheritdoc}
+   * 
+   * @param array<string, mixed> $form
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   * @return void
    */
   public function submitConfigurationForm(array &$form, FormStateInterface $form_state): void {
     $this->setConfiguration([

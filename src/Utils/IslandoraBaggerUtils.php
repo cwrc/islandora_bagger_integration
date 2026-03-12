@@ -2,6 +2,7 @@
 
 namespace Drupal\islandora_bagger_integration\Utils;
 
+use Drupal\Core\Config\ImmutableConfig;
 use Symfony\Component\Yaml\Yaml;
 
 /**

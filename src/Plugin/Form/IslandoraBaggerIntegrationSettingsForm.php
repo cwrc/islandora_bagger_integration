@@ -30,7 +30,9 @@ class IslandoraBaggerIntegrationSettingsForm extends ConfigFormBase {
 
   /** 
    * {@inheritdoc}
-   * 
+   *
+   * @param array<string, mixed> $form
+   * @param \Drupal\Core\Form\FormStateInterface $form_state 
    * @return array<string, mixed>
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
@@ -93,6 +95,10 @@ class IslandoraBaggerIntegrationSettingsForm extends ConfigFormBase {
 
   /**
    * {@inheritdoc}
+   * 
+   * @param array<string, mixed> $form
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   * @return void
    */
   public function validateForm(array &$form, FormStateInterface $form_state): void {
     $utils = \Drupal::service('islandora_bagger_integration.utils');
@@ -138,6 +144,10 @@ class IslandoraBaggerIntegrationSettingsForm extends ConfigFormBase {
 
   /** 
    * {@inheritdoc}
+   * 
+   * @param array<string, mixed> $form
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   * @return void
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
        $this->configFactory->getEditable('islandora_bagger_integration.settings')

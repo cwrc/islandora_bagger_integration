@@ -34,6 +34,7 @@ class IslandoraBaggerIntegrationBagLog extends ResourceBase {
   /**
    * Responds to POST requests.
    *
+   * @param \Symfony\Component\HttpFoundation\Request $request
    * @return \Drupal\rest\ResourceResponse
    */
   public static function post(Request $request): ResourceResponse {
