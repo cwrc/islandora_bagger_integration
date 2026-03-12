@@ -35,6 +35,7 @@ class IslandoraBaggerUtils {
       $context_manager = \Drupal::service('context.manager');
       // If there are multiple contexts that provide a path to a config file, it's OK to use the last one.
       foreach ($context_manager->getActiveReactions('islandora_bagger_integration_config_file_paths') as $reaction) {
+        // @phpstan-ignore-line
         $islandora_bagger_config_file_path_from_context = $reaction->execute();
       }
     }
@@ -82,7 +83,7 @@ class IslandoraBaggerUtils {
    * @param string $path
    *   Path to the config file.
    *
-   * @return array|bool
+   * @return array<string, mixed>|bool
    *   The configuration values, or FALSE if there was a problem.
    */
   public function getIslandoraBaggerConfig(string $path): array|bool {
@@ -92,7 +93,9 @@ class IslandoraBaggerUtils {
 
     // Use a static cache to avoid reading the config file multiple times.
     static $settings;
-    $settings = Yaml::parseFile($path);
+    if (!isset($settings[$path])) {
+      $settings = Yaml::parseFile($path);
+    }
     return $settings;
   }
 
@@ -102,12 +105,12 @@ class IslandoraBaggerUtils {
    *
    * New tags are added, and existing tags are overwritten with new values.
    *
-   * @param array $existing_config
+   * @param array<string, mixed> $existing_config
    *    The YAML from the config file template.
    * @param string $bag_info_tags_from_context
    *    The pipe-separated bag-info tags from the Context configuration.
    *
-   * @return array
+   * @return array<astring, mixed>
    *    The modified YAML configuration data as an associative array.
    */
   public function addBagInfoTags(array $existing_config, string $bag_info_tags_from_context): array {
@@ -129,14 +132,14 @@ class IslandoraBaggerUtils {
    *
    * New tags are added, and existing tags are overwritten with new values.
    *
-   * @param array $existing_config
+   * @param array<string, mixed> $existing_config
    *    The YAML from the config file template.
    * @param string $key
    *    The YAML key to update.
    * @param string $list_from_context
    *    The pip-separate list of values from the Context configuration.
    *
-   * @return array
+   * @return array<string, mixed>
    *    The modified YAML configuration data as an associative array.
    */
   public function addListConfigOptions(array $existing_config, string $key, string $list_from_context): array {

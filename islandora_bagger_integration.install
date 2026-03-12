@@ -2,6 +2,8 @@
 
 /**
  * Implements hook_requirements().
+ *
+ * @return array<string, mixed>
  */
 function islandora_bagger_integration_requirements(string $phase): array {
   $requirements = [];
@@ -74,6 +76,8 @@ function islandora_bagger_integration_requirements(string $phase): array {
 
 /**
  * Implements hook_schema().
+ *
+ * @return array<string, mixed>
  */
 function islandora_bagger_integration_schema(): array {
   $schema = [];

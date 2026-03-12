@@ -8,8 +8,9 @@ use Symfony\Component\Yaml\Yaml;
 function islandora_bagger_integration_islandora_bagger_config_file_contents_alter(string $nid, string &$config_file_contents): void {
  if (\Drupal::moduleHandler()->moduleExists('context')) {
    $utils = \Drupal::service('islandora_bagger_integration.utils');
-
    $context_manager = \Drupal::service('context.manager');
+   
+   $options = '';
    foreach ($context_manager->getActiveReactions('islandora_bagger_integration_config_options') as $reaction) {
      // Last one wins.
      // @phpstan-ignore-line
@@ -23,9 +24,9 @@ function islandora_bagger_integration_islandora_bagger_config_file_contents_alte
    }
 
    $config =  Yaml::parse($config_file_contents);
+   $skip_keys = array('bag-info', 'drupal_basic_auth', 'drupal_media_tags', 'plugins', 'post_bag_scripts');
    foreach ($options_from_context as $key => $value) {
      // Skip options that have lists as values, process them below.
-     $skip_keys = array('bag-info', 'drupal_basic_auth', 'drupal_media_tags', 'plugins', 'post_bag_scripts');
      if (!in_array($key, $skip_keys)) {
        // If key exists in config file, update value; if not, add it as an option.
        $config[$key] = $value;
@@ -55,6 +56,8 @@ function islandora_bagger_integration_islandora_bagger_config_file_contents_alte
 
 /**
  * Implements hook_views_data().
+ *
+ * @return array<string, mixed>
  */
 function islandora_bagger_integration_views_data(): array {
   $data = [];
