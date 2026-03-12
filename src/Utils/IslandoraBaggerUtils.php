@@ -110,7 +110,7 @@ class IslandoraBaggerUtils {
    * @param string $bag_info_tags_from_context
    *    The pipe-separated bag-info tags from the Context configuration.
    *
-   * @return array<astring, mixed>
+   * @return array<string, mixed>
    *    The modified YAML configuration data as an associative array.
    */
   public function addBagInfoTags(array $existing_config, string $bag_info_tags_from_context): array {
